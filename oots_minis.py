@@ -2,7 +2,7 @@
 
 from optparse import OptionParser
 import extract
-
+import glob
 
 parser = OptionParser()
 parser.add_option("-f", "--file", 
@@ -32,7 +32,14 @@ for page in range(options.startPage, options.endPage):
 	print('Page: ', page)
 	extract.extractToPng(options.filename, page, page, "pdfimg")
 
+
 	# Get list of PNG files
+	images = sorted(glob.glob("pdfimg-*.png"))
+	if (len(images) % 2 != 0):
+		sys.stderr.write("WARNING: Odd Number of Images Extracted (", len(images),". The last image will be ignored")
+
+	for fl in images:
+		print (fl)
 	# Sort list
 	# Convert pairs of images
 
