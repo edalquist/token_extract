@@ -13,8 +13,11 @@ def extractToPng(filename, start, end, imgPrefix):
 	print ("Extracting pages ", start, "to", end, "from", filename)
 	subprocess.call(["pdfimages", "-j", "-p", "-f", str(start), "-l", str(end), filename, imgPrefix])
 	
-	# Remove all ppm files
-	for fl in glob.glob("*.ppm"):
-		subprocess.call(["mogrify", "-format", "png", fl])
+	images = glob.glob(imgPrefix + "-*.*")
+	cmd = ["mogrify", "-format", "png"] + images
+	subprocess.call(cmd)
+
+	# Remove all extracted image files
+	for fl in images:
 		os.remove(fl)
 
