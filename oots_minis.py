@@ -87,24 +87,6 @@ for page in range(options.startPage, options.endPage):
 					# Trim excess whitespace
 					tokenFront.trim()
 					tokenFront.save(filename=frontTokenFileName)
-
-				# # Split the token vertically into front/back tokens
-				# with fullToken[0:cropWidth, 0:cropHeight] as tokenBack:
-				# 	# Rotate and flip the back token
-				# 	tokenBack.rotate(180)
-				# 	tokenBack.flop()
-
-				# 	with fullToken[0:cropWidth, cropHeight:fullHeight] as tokenFront:
-				# 		tokens = [tokenBack, tokenFront]
-
-				# 		# Trim excess whitespace
-				# 		[ x.trim() for x in tokens ]
-
-				# 		tokenBack.width = 1000
-
-				# 		tokenBack.save(filename=backTokenFileName)
-				# 		tokenFront.save(filename=frontTokenFileName)
-
 				
 		# Move original files into orig dir
 		os.rename(fl1, origDir + "/" + fl1)
