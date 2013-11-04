@@ -70,6 +70,7 @@ for page in range(options.startPage, options.endPage):
 		tokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + ".png"
 		backTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-b.png"
 		frontTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-f.png"
+		fullTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-full.png"
 
 		print ("Merging: ", fl1, " ", fl2)
 
@@ -82,6 +83,8 @@ for page in range(options.startPage, options.endPage):
 				cropWidth = fullToken.size[0]
 				cropHeight = math.floor(fullToken.size[1]/2)
 				fullHeight = fullToken.size[1]
+
+				fullToken.save(filename=fullTokenFileName)
 	
 				with fullToken[0:cropWidth, cropHeight:fullHeight] as tokenFront:
 					# Trim excess whitespace
