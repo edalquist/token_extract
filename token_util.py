@@ -16,7 +16,7 @@ def extractToPng(filename, start, end, imgPrefix):
 	if (imgPrefix is None):
 		imgPrefix = "pdfimg"
 	
-	print ("Extracting pages ", start, "to", end, "from", filename)
+	print "Extracting pages " + str(start) + "to" + str(end) + "from" + filename
 	subprocess.call(["pdfimages", "-j", "-p", "-f", str(start), "-l", str(end), filename, imgPrefix])
 	
 	images = glob.glob(imgPrefix + "-*.*")

@@ -56,21 +56,35 @@ for page in range(options.startPage, options.endPage):
 
 	it = iter(images)
 	for fl1, fl2 in zip(it, it):
+		print fl1
+		print fl2
 		m = re.search('pdfimg-([0-9]+)-([0-9]+)\.png', fl1)
+
 		pageNum = m.group(1)
 		origDir = pageNum + "/orig"
+		fullDir = pageNum + "/full"
+		frontDir = pageNum + "/front"
+		backDir = pageNum + "/back"
 
 		# Create the page directory if it doesn't already exist
 		if (not os.path.isdir(pageNum)):
 			if (os.path.exists(pageNum)):
 				os.remove(pageNum)
 			os.mkdir(pageNum)
+
+		if (not os.path.isdir(origDir)):
 			os.mkdir(origDir)
+		if (not os.path.isdir(fullDir)):
+			os.mkdir(fullDir)
+		if (not os.path.isdir(frontDir)):
+			os.mkdir(frontDir)
+		if (not os.path.isdir(backDir)):
+			os.mkdir(backDir)
 
 		tokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + ".png"
-		backTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-b.png"
-		frontTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-f.png"
-		fullTokenFileName = pageNum + "/token-" + pageNum + "-" + m.group(2) + "-full.png"
+		backTokenFileName = backDir + "/token-" + pageNum + "-" + m.group(2) + "-back.png"
+		frontTokenFileName = frontDir + "/token-" + pageNum + "-" + m.group(2) + "-front.png"
+		fullTokenFileName = fullDir + "/token-" + pageNum + "-" + m.group(2) + "-full.png"
 
 		print ("Merging: ", fl1, " ", fl2)
 
@@ -81,7 +95,7 @@ for page in range(options.startPage, options.endPage):
 
 				# Calcuate the crop data
 				cropWidth = fullToken.size[0]
-				cropHeight = math.floor(fullToken.size[1]/2)
+				cropHeight = int(math.floor(fullToken.size[1]/2))
 				fullHeight = fullToken.size[1]
 
 				fullToken.save(filename=fullTokenFileName)
@@ -90,6 +104,12 @@ for page in range(options.startPage, options.endPage):
 					# Trim excess whitespace
 					tokenFront.trim()
 					tokenFront.save(filename=frontTokenFileName)
+
+				with fullToken[0:cropWidth, 0:cropHeight] as tokenBack:
+					# Trim excess whitespace
+					tokenBack.trim()
+					tokenBack.rotate(180)
+					tokenBack.save(filename=backTokenFileName)
 				
 		# Move original files into orig dir
 		os.rename(fl1, origDir + "/" + fl1)
