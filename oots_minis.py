@@ -109,6 +109,7 @@ for page in range(options.startPage, options.endPage):
 					# Trim excess whitespace
 					tokenBack.trim()
 					tokenBack.rotate(180)
+					tokenBack.flop()
 					tokenBack.save(filename=backTokenFileName)
 				
 		# Move original files into orig dir
